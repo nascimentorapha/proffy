@@ -32,12 +32,12 @@
     width: 90%;
     margin: 0 auto;
     position: relative;
-    margin: 3.2rem auto;
+    margin: 3.20rem auto;
 }
 
 .page-header .header-content strong{
     font: 700 3.6rem Archivo;
-    line-height: 4.2rem;
+    line-height: 4.20rem;
     color: var(--color-title-in-primary);
 }
 
