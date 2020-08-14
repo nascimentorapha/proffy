@@ -1,7 +1,14 @@
 import express from 'express'
 import db from './database/connection';
+import convertHourToMinute from './utils/convertHourToMinutes';
 
 const routes = express.Router();
+
+interface ScheduleItem {
+    week_day: number;
+    from: string;
+    to: string;
+}
 
 routes.post('/classes', async (request, response) => {
     const {
@@ -14,14 +21,34 @@ routes.post('/classes', async (request, response) => {
         schedule
     } = request.body;
 
-    await db('users').insert({
+    const insertedUsersIds = await db('users').insert({
         name,
         avatar,
         whatsapp,
         bio,
     })
 
-    
+    const user_id = insertedUsersIds[0];
+
+    const insertedClassesIds = await db('classes').insert({
+        subject,
+        cost,
+        user_id,
+    })
+
+    const class_id = insertedClassesIds[0];
+
+    const classSchedule = schedule.map((scheduleItem: ScheduleItem) => {
+        return {
+            class_id,
+            week_day: scheduleItem.week_day,
+            from: convertHourToMinute(scheduleItem.from),
+            to: convertHourToMinute(scheduleItem.to),
+        };
+    })    
+
+    await db('class_schedule').insert(classSchedule);
+
     return response.send();
     
 })
