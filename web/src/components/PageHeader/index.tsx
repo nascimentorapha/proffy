@@ -8,6 +8,7 @@ import './styles.css'
 
 interface PageHeaderProps {
     title: string;
+    description?: string; //? = não obrigatória
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => { //função para receber tipagem
@@ -22,6 +23,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => { //função para receb
 
                 <div className="header-content">
                     <strong>{props.title}</strong>
+                    { props.description && <p>{props.description}</p>}
+
                     {props.children}
                 </div>
 
